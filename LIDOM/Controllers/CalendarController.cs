@@ -2,6 +2,7 @@
 using LIDOM.Models;
 using LIDOM.Repository;
 using Microsoft.AspNetCore.Mvc;
+using WebLIDOM.Models.DTO;
 
 namespace LIDOM.Controllers
 {
@@ -9,7 +10,7 @@ namespace LIDOM.Controllers
     [Route("[controller]")]
     public class CalendarController : Controller
     {
-        private readonly ICalendarRepository<Calendar> _calendarRepository;
+        private readonly ICalendarRepository<Calendar, UpdateCalendar> _calendarRepository;
         public CalendarController()
         {
             _calendarRepository = new CalendarRespository();
@@ -32,10 +33,10 @@ namespace LIDOM.Controllers
         }
 
         [HttpPost("UpdateCalendar")]
-        public IActionResult UpdateTeam(Calendar calendar)
+        public IActionResult UpdateTeam(UpdateCalendar updateCalendar)
         {
             if (!ModelState.IsValid) return Ok(null);
-            _calendarRepository.Update(calendar);
+            Calendar calendar = _calendarRepository.Update(updateCalendar);
             _calendarRepository.Save();
             return Ok(calendar);
         }

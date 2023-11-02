@@ -2,10 +2,11 @@
 using LIDOM.Interface;
 using LIDOM.Models;
 using Microsoft.EntityFrameworkCore;
+using WebLIDOM.Models.DTO;
 
 namespace LIDOM.Repository
 {
-    public class CalendarRespository : ICalendarRepository<Calendar>
+    public class CalendarRespository : ICalendarRepository<Calendar, UpdateCalendar>
     {
         private readonly LidomDBContext _context;
 
@@ -34,7 +35,7 @@ namespace LIDOM.Repository
         public Calendar GetById(int calendarId)
         {
             Calendar? calendar = _context.Calendars.Find(calendarId);
-            return calendar;
+            return calendar!;
         }
 
         public void Insert(Calendar newCalendar)
@@ -48,17 +49,22 @@ namespace LIDOM.Repository
             _context.SaveChanges();
         }
 
-        public void Update(Calendar updateCalendar)
+        public Calendar Update(UpdateCalendar updateCalendar)
         {
-            
             Calendar? calendar = this.GetById((int)updateCalendar.Id!);
             if (calendar != null)
             {
-                updateCalendar.CreatedDate = calendar.CreatedDate!;
+                if (updateCalendar.Status != null) calendar.Status = updateCalendar.Status;
+                
+                if(updateCalendar.Home != null)  calendar.Home = updateCalendar.Home;
+
+                if (updateCalendar.GameDate != null) calendar.GameDate = (DateTime) updateCalendar.GameDate;
+
                 _context.Entry(calendar).State = EntityState.Detached;
-                _context.Entry(updateCalendar).State = EntityState.Modified;
-                _context.Calendars.Update(updateCalendar);
+                _context.Entry(calendar).State = EntityState.Modified;
+                _context.Calendars.Update(calendar);
             }
+            return calendar!;
         }
     }
 }

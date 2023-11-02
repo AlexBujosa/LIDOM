@@ -1,4 +1,5 @@
 using Microsoft.Extensions.FileProviders;
+using WebLIDOM.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +7,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddMemoryCache();
+
+
+builder.Services.AddScoped<HomeService>();
+builder.Services.AddScoped<CalendarService>();
+builder.Services.AddScoped<LidomService>();
+builder.Services.AddScoped<StadisticService>();
+
 
 var app = builder.Build();
 

@@ -3,6 +3,7 @@ using LIDOM.Interface;
 using LIDOM.Models;
 using LIDOM.utils;
 using Microsoft.EntityFrameworkCore;
+using WebLIDOM.Models.DTO;
 using Calendar = LIDOM.Models.Calendar;
 
 namespace LIDOM.Repository
@@ -10,7 +11,7 @@ namespace LIDOM.Repository
     public class StadisticRepository : IStadisticRepository<Stadistic>
     {
         private readonly LidomDBContext _context;
-        private readonly ICalendarRepository<Calendar> _calendarRepository;
+        private readonly ICalendarRepository<Calendar, UpdateCalendar> _calendarRepository;
 
         public StadisticRepository()
         {
@@ -39,7 +40,7 @@ namespace LIDOM.Repository
         {
             Stadistic? existingStadistic = _context.Stadistics
                 .Where(s => s.Id_Calendar == Id_Calendar && s.Id_Team == Id_Team).FirstOrDefault();
-            return existingStadistic;
+            return existingStadistic!;
         }
 
         public void Insert(Stadistic newStadistic)

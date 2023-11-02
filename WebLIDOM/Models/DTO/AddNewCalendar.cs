@@ -4,6 +4,8 @@ namespace WebLIDOM.Models.DTO
 {
     public class AddNewCalendar
     {
+        public int? Id { get; set; }
+
         public int Id_FirstTeam { get; set; }
 
         public int Id_SecondTeam { get; set; }

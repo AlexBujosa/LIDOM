@@ -34,25 +34,28 @@ const selectedOption = (selectorValue, options, anotherSelector, selectorCurrent
 
 }
 
-const stadiosOption = (stadios1, stadios2, selector) => {
-    var options = [];
+const stadiumOption = (baseballTeamSelected, stadiumSelector) => {
+    var stadiumOptions = [];
 
-    for (var i = 1; i < selector.childElementCount; i++) {
-        selector.remove(i);
+    //Remove all child elements skipping first element
+    while (stadiumSelector.childElementCount > 1) {
+        stadiumSelector.remove(1);
     }
-    if (stadios1.length !== 0) {
-        options.push(stadios1);
+    console.log(stadiumSelector.childElementCount);
+    //Checking if there is an option selected on first team selector
+    if (Object.keys(baseballTeamSelected[0]).length != 0) {
+        stadiumOptions.push(baseballTeamSelected[0]);
     }
 
-    if (stadios2.length !== 0) {
-        options.push(stadios2);
+     //Checking if there is an option selected on first team selector
+    if (Object.keys(baseballTeamSelected[1]).length != 0) {
+        stadiumOptions.push(baseballTeamSelected[1]);
     }
-    console.log(options);
-  
 
-    for (var i = 0; i < options.length; i++) {
-        var optionHome = newOption(options[i].home, options[i].home);
-        selector.appendChild(optionHome);
+    //Creating Stadio selector depending on what lidom team you choose
+    for (var i = 0; i < stadiumOptions.length; i++) {
+        var stadiumOption = newOption(stadiumOptions[i].home, stadiumOptions[i].home);
+        stadiumSelector.appendChild(stadiumOption);
     }
 }
 

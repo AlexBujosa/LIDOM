@@ -15,8 +15,8 @@
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Home</th>
+                <th scope="col">Equipos</th>
+                <th scope="col">Estadios</th>
             </tr>
             </thead>
             <tbody>
@@ -26,11 +26,11 @@
                     {
                         int teamId = lidomTeam.Id ?? 0;
                         teamsD.Add(teamId, lidomTeam.Name!);
-                                <tr>
-                                    <th scope="row">@itemCount</th>
-                                    <td>@lidomTeam.Name</td>
-                                    <td>@lidomTeam.Home</td>
-                                </tr>
+                                    <tr>
+                                        <th scope="row">@itemCount</th>
+                                        <td>@lidomTeam.Name</td>
+                                        <td>@lidomTeam.Home</td>
+                                    </tr>
 
                         itemCount++;
                     }
@@ -61,12 +61,12 @@
             @{
                 for (int i = 0; i < calendarsNotPlayed.Count; i++)
                 {
-                        <tr>
-                            <td>@teamsD[calendarsNotPlayed[i].Id_FirstTeam]</td>
-                            <td>@teamsD[calendarsNotPlayed[i].Id_SecondTeam]</td>
-                            <td>@calendarsNotPlayed[i].Home</td>
-                            <td>@calendarsNotPlayed[i].GameDate.ToString("D", new System.Globalization.CultureInfo("es-ES"))</td>
-                        </tr>
+                                <tr>
+                                    <td>@teamsD[calendarsNotPlayed[i].Id_FirstTeam]</td>
+                                    <td>@teamsD[calendarsNotPlayed[i].Id_SecondTeam]</td>
+                                    <td>@calendarsNotPlayed[i].Home</td>
+                                    <td>@calendarsNotPlayed[i].GameDate.ToString("D", new System.Globalization.CultureInfo("es-ES"))</td>
+                                </tr>
                 }
             }
             </tbody>
@@ -103,9 +103,9 @@
         selected: false
     }
 
-    var stadios = {
-        0: [],
-        1: []
+    var lidomTeamsSelected = {
+        0: {},
+        1: {}
     }
 
     var selector1 = document.getElementById("sel-1");
@@ -142,29 +142,26 @@
 <script>
     selector1.addEventListener("change", function(e){
         var selectorValue = parseInt(selector1.value);
-        console.log(selectorValue);
+
         selectedOption(selectorValue, options2, selector2, selectorCurrent1);
         
-        stadios[0] = lidomTeamsC.find((lidom)=>{
+        lidomTeamsSelected[0] = lidomTeamsC.find((lidom)=>{
               return lidom.id === selectorValue;
         });
 
- 
-        stadiosOption(stadios[0], stadios[1], selector3);
-        
-       
+        stadiumOption(lidomTeamsSelected, selector3);
     });
 
     selector2.addEventListener("change", function(){
         var selectorValue = parseInt(selector2.value);
-        console.log(selectorValue);
+
         selectedOption(selectorValue, options1, selector1, selectorCurrent2);
          
-        stadios[1] = lidomTeamsC.find((lidom)=>{
+        lidomTeamsSelected[1] = lidomTeamsC.find((lidom)=>{
               return lidom.id === selectorValue;
         })
-      
-        stadiosOption(stadios[0], stadios[1], selector3);
+
+        stadiumOption(lidomTeamsSelected, selector3);
     });
 </script>
 

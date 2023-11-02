@@ -1,0 +1,185 @@
+﻿@using WebLIDOM.Models;
+@{
+
+    ViewData["Title"] = "Home Page";
+    List<LidomTeam>? lidomTeams = ViewBag.lidomTeams;
+    List<Calendar>? calendars = ViewBag.calendars;
+    Dictionary<int, string> teamsD = new Dictionary<int, string>();
+    List<Calendar> calendarsNotPlayed = calendars.Where(x => x.Status != LIDOM.utils.GameStatus.Past).ToList();
+}
+
+<div style="margin-right:40px; margin-left:40px;">
+    <div class="row">
+        <div class="col-lg-8 col-md-12">
+            <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Home</th>
+            </tr>
+            </thead>
+            <tbody>
+                @{
+                    int itemCount = 1;
+                    foreach (LidomTeam lidomTeam in lidomTeams)
+                    {
+                        int teamId = lidomTeam.Id ?? 0;
+                        teamsD.Add(teamId, lidomTeam.Name!);
+                                <tr>
+                                    <th scope="row">@itemCount</th>
+                                    <td>@lidomTeam.Name</td>
+                                    <td>@lidomTeam.Home</td>
+                                </tr>
+
+                        itemCount++;
+                    }
+                }
+            </tbody>
+        </table>
+        </div>
+         <div class="col-lg-4 col-md-12">
+            @Html.Partial("Calendar")
+        </div>
+
+    </div>
+</div>
+
+<div style="margin-right:40px; margin-left:40px;">
+    <div class="row">
+        <div class="col-12">
+            <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Equipo 1</th>
+                <th scope="col">Equipo 2</th>
+                <th scope="col">Estadio</th>
+                <th scope="col">Dia de juego</th>
+            </tr>
+            </thead>
+            <tbody>
+            @{
+                for (int i = 0; i < calendarsNotPlayed.Count; i++)
+                {
+                        <tr>
+                            <td>@teamsD[calendarsNotPlayed[i].Id_FirstTeam]</td>
+                            <td>@teamsD[calendarsNotPlayed[i].Id_SecondTeam]</td>
+                            <td>@calendarsNotPlayed[i].Home</td>
+                            <td>@calendarsNotPlayed[i].GameDate.ToString("D", new System.Globalization.CultureInfo("es-ES"))</td>
+                        </tr>
+                }
+            }
+            </tbody>
+        </table>
+        </div>
+    </div>
+</div>
+@Html.Partial("../Calendar/Calendar.cshtml");
+
+@Html.Partial("AddCalendar");
+
+ <script src="~/js/calendar/option.js"></script>
+
+<script>
+    var colors = {
+        0: "bg-info text-light",
+        1: "bg-success text-light",
+        2: "bg-warning text-light"
+    };
+
+    var calendarsC = [];
+    var lidomTeamsC = [];
+    var currentDate;
+
+    lidomTeamsC = @Html.Raw(Json.Serialize(lidomTeams));
+    calendarsC = @Html.Raw(Json.Serialize(calendars));
+
+    var selectorCurrent1 = {
+        value: 0,
+        selected: false
+    }
+
+    var selectorCurrent2 = {
+        value: 0,
+        selected: false
+    }
+
+    var stadios = {
+        0: [],
+        1: []
+    }
+
+    var selector1 = document.getElementById("sel-1");
+    var selector2 = document.getElementById("sel-2");
+    var selector3 = document.getElementById("sel-3");
+    var selector4 = document.getElementById("sel-4");
+
+    var options1 = [];
+    var options2 = [];
+    var optionsHome = [];
+
+   lidomTeamsC.forEach((lidomTeam)=> {
+        var option1 = newOption(lidomTeam.id, lidomTeam.name);
+        var option2 = newOption(lidomTeam.id, lidomTeam.name);
+        selector1.appendChild(option1);
+        selector2.appendChild(option2);
+
+        options1.push(option1);
+        options2.push(option2);
+    });
+
+    const transformedData = calendarsC.map((cal)=> {
+        return {
+             [cal.gameDate.substring(0,10)]: {
+                modifier: colors[cal.status],
+                html: "Meeting at " + cal.gameDate.substring(11,16)
+            }
+        }
+    });
+
+    const popup = Object.assign({}, ...transformedData);
+</script>
+
+<script>
+    selector1.addEventListener("change", function(e){
+        var selectorValue = parseInt(selector1.value);
+        console.log(selectorValue);
+        selectedOption(selectorValue, options2, selector2, selectorCurrent1);
+        
+        stadios[0] = lidomTeamsC.find((lidom)=>{
+              return lidom.id === selectorValue;
+        });
+
+ 
+        stadiosOption(stadios[0], stadios[1], selector3);
+        
+       
+    });
+
+    selector2.addEventListener("change", function(){
+        var selectorValue = parseInt(selector2.value);
+        console.log(selectorValue);
+        selectedOption(selectorValue, options1, selector1, selectorCurrent2);
+         
+        stadios[1] = lidomTeamsC.find((lidom)=>{
+              return lidom.id === selectorValue;
+        })
+      
+        stadiosOption(stadios[0], stadios[1], selector3);
+    });
+</script>
+
+<script>
+    // Get a reference to the closePopup element
+    var closePopup = document.getElementById("closePopup");
+
+    // Add a click event listener to it
+    closePopup.addEventListener("click", function() {
+        // This code will be executed when closePopup is clicked
+        var popup = document.getElementById("popup");
+        popup.style.display = "none"; // Hide the popup
+    });
+
+</script>
+
+<script src="~/js/calendar/calendar.js"></script>

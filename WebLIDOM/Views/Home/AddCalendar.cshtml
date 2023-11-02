@@ -1,0 +1,62 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div id="popup" class="popup">
+    <div class="popup-content">
+        <span class="close" id="closePopup">&times;</span>
+        <h2>Juego LIDOM</h2>
+        <p>Agrega nuevas fechas de los proximos juegos</p>
+       <form method="post" method="post" asp-action="AddNewCalendar" asp-controller="Home">
+         <div class="row">
+            <div class="col-3 left-align">Equipo 1</div>
+            <div class="col-9 left-align">
+                <select class="form-select" aria-label="Disabled select example" id="sel-1" name="Id_FirstTeam">
+                    <option value ="0" selected>Elige primer equipo</option>      
+                </select>
+            </div>
+         </div>
+         <div class="row mt-1">
+            <div class="col-3 left-align">Equipo 2</div>
+            <div class="col-9">
+                <select class="form-select" aria-label="Disabled select example" id="sel-2" name="Id_SecondTeam">
+                     <option value="0" selected>Elige segundo equipo</option>
+                </select>
+            </div>
+         </div>
+         <div class="row mt-1">
+            <div class="col-3 left-align">Estadio</div>
+            <div class="col-9">
+                <select class="form-select" aria-label="Disabled select example" id="sel-3" name="Home">
+                    <option value="N/A" selected>Open this select menu</option>
+
+                </select>
+            </div>
+         </div>
+         <div class="row mt-1">
+            <div class="col-3 left-align">Hora</div>
+            <div class="col-9">
+                <select class="form-select" aria-label="Disabled select example" id="sel-4" name="GameDate">
+                    <option value="N/A" selected>Open this select menu</option>
+                </select>
+            </div>
+         </div>
+         <div class="row mt-1">
+            <div class="col-3 left-align">Estado</div>
+            <div class="col-9">
+                <select class="form-select" aria-label="Disabled select example" name="Status">
+                    <option selected>Selecciona tipo</option>
+                    <option value=0>Juego Entrante</option>
+                    <option value=1>Juego Pasado</option>
+                    <option value=2>Juego Pospuesto</option>
+                </select>
+            </div>
+         </div>
+         <div class="row mt-1">
+            <button type="submit" class="btn btn-primary">Agendar</button>
+         </div>
+          </form>
+    </div>
+ </div>

@@ -1,6 +1,4 @@
-﻿
-
-using LIDOM.utils;
+﻿using LIDOM.utils;
 
 namespace WebLIDOM.Models
 {

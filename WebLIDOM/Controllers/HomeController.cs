@@ -129,7 +129,7 @@ namespace WebLIDOM.Controllers
 
             _memoryCache.Set("lidomTeams", teams);
             _memoryCache.Set("calendars", calendars);
-            _memoryCache.Set("stadistics", calendars);
+            _memoryCache.Set("stadistics", stadistics);
 
 
             return View();

@@ -34,7 +34,7 @@ namespace WebLIDOM.Controllers
 
         public async Task<IActionResult> AddNewCalendar(AddNewCalendar calendar)
         {
-            List<Calendar> calendars = (List<Calendar>)_memoryCache.Get("calendar");
+            List<Calendar> calendars = (List<Calendar>)_memoryCache.Get("calendars");
 
             Calendar newCalendar = await _calendarService.AddNewCalendar(calendar);
             
@@ -45,10 +45,15 @@ namespace WebLIDOM.Controllers
 
         public async Task<IActionResult> UpdateCalendar(UpdateCalendar updateCalendar)
         {
-            Calendar newCalendar = await _calendarService.AddNewCalendar(calendar);
+            List<Calendar> calendars = (List<Calendar>)_memoryCache.Get("calendars");
 
-            calendars.Add(newCalendar);
+            Calendar calendarUpdated = await _calendarService.UpdateCalendar(updateCalendar);
+            int index = calendars.FindIndex(value => value.Id == calendarUpdated.Id);
+            calendars[index] = calendarUpdated;
+
             ViewBag.calendars = calendars;
+            _memoryCache.Set("calendars", calendars);
+
             return RedirectToAction("Index", "Home");
         }
     }

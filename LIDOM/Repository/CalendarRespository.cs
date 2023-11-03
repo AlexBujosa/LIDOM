@@ -49,7 +49,7 @@ namespace LIDOM.Repository
             _context.SaveChanges();
         }
 
-        public Calendar Update(UpdateCalendar updateCalendar)
+        public Calendar? Update(UpdateCalendar updateCalendar)
         {
             Calendar? calendar = this.GetById((int)updateCalendar.Id!);
             if (calendar != null)
@@ -64,7 +64,7 @@ namespace LIDOM.Repository
                 _context.Entry(calendar).State = EntityState.Modified;
                 _context.Calendars.Update(calendar);
             }
-            return calendar!;
+            return null;
         }
     }
 }

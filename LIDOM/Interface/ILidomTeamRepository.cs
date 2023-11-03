@@ -1,4 +1,5 @@
 ﻿using LIDOM.Models;
+using LIDOM.Models.DTO;
 
 namespace LIDOM.Interface
 {
@@ -7,7 +8,7 @@ namespace LIDOM.Interface
         IEnumerable<LidomTeam> GetAll();
         LidomTeam GetById(int id);
         void Insert(LidomTeam lidomTeam);
-        void Update(LidomTeam lidomTeam);
+        LidomTeam Update(UpdateLidomTeam updateLidomTeam);
         bool Delete(int lidomTeamId);
         void Save();
     }

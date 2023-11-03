@@ -1,0 +1,57 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    List<LidomTeam>? lidomTeams = ViewBag.lidomTeams;
+}
+
+<div id="update-lidom-popup" class="popup">
+    <div class="popup-content popup-lidom">
+        <span class="close" id="closePopup">&times;</span>
+        <h2>Actualizar Equipo LIDOM</h2>
+       <form method="post" method="post" asp-action="UpdateLidomTeam" asp-controller="Lidom">
+         <div class="row">
+            <input type="hidden" name="Id" id="input_id"/> 
+            <div class="col-3 left-align">Equipo: </div>
+            <div class="col-9">
+                  <input type="text" class="form-control" name="Name" id="input_name" placeholder="Ingresar nombre del equipo">
+            </div>
+         </div>
+         <div class="row mt-1">
+            <div class="col-3 left-align">Estadio</div>
+            <div class="col-9">
+                <input type="text" class="form-control" name="Home" id="input_home"  placeholder="Ingresar nombre del equipo">
+            </div>
+         </div>
+         <div class="row mt-1">
+            <button type="submit" class="btn btn-primary">Actualizar Equipo</button>
+         </div>
+          </form>
+    </div>
+ </div>
+ 
+<script>
+    var lidomTeams = @Html.Raw(Json.Serialize(lidomTeams));
+    const updateLidomPopup = document.getElementById("update-lidom-popup");
+
+    const updateLidom = (lidom_id) => {
+        const inputId = document.getElementById("input_id");
+        const inputName = document.getElementById("input_name");
+        const inputHome = document.getElementById("input_home");
+
+        var lidomTeam = lidomTeams.find(x => x.id == parseInt(lidom_id))
+        inputId.value = lidomTeam.id;
+        inputName.value = lidomTeam.name;
+        inputHome.value = lidomTeam.home;
+
+        updateLidomPopup.style.display = "flex";
+
+
+    }
+
+    const closePopup = document.getElementById("closePopup");
+
+    closePopup.addEventListener('click', function(){
+        updateLidomPopup.style.display="none";
+    })
+</script>

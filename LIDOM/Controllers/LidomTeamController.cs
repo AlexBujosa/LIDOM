@@ -1,5 +1,6 @@
 ﻿using LIDOM.Interface;
 using LIDOM.Models;
+using LIDOM.Models.DTO;
 using LIDOM.Repository;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,10 +33,10 @@ namespace LIDOM.Controllers
         }
 
         [HttpPost("UpdateTeam")]
-        public IActionResult UpdateTeam(LidomTeam lidomTeam)
+        public IActionResult UpdateTeam(UpdateLidomTeam updateLidomTeam)
         {
             if (!ModelState.IsValid) return Ok(null);
-            _lidomTeamRepository.Update(lidomTeam);
+            var lidomTeam = _lidomTeamRepository.Update(updateLidomTeam);
             _lidomTeamRepository.Save();
             return Ok(lidomTeam);
         }

@@ -1,7 +1,7 @@
 ﻿using LIDOM.Databases;
 using LIDOM.Interface;
 using LIDOM.Models;
-
+using LIDOM.Models.DTO;
 using Microsoft.EntityFrameworkCore;
 
 namespace LIDOM.Repository
@@ -33,7 +33,7 @@ namespace LIDOM.Repository
 
         }
 
-        public LidomTeam GetById(int id)
+        public LidomTeam? GetById(int id)
         {
             LidomTeam? lidomTeam = _context.LidomTeams.Find(id);
             return lidomTeam;
@@ -50,16 +50,21 @@ namespace LIDOM.Repository
             _context.SaveChanges();
         }
 
-        public void Update(LidomTeam lidomTeam)
+        public LidomTeam? Update(UpdateLidomTeam updateLidomTeam)
         {
-            LidomTeam? getLidomTeam = this.GetById((int)lidomTeam.Id!);
-            if (getLidomTeam != null)
+            LidomTeam? lidomTeam = this.GetById((int)updateLidomTeam.Id!);
+            if (lidomTeam != null)
             {
-                lidomTeam.CreatedDate = getLidomTeam.CreatedDate!;
-                _context.Entry(getLidomTeam).State = EntityState.Detached;
+                if (updateLidomTeam.Name != null)  lidomTeam.Name = updateLidomTeam.Name;
+
+                if (updateLidomTeam.Home != null) lidomTeam.Home = updateLidomTeam.Home;
+
+                _context.Entry(lidomTeam).State = EntityState.Detached;
                 _context.Entry(lidomTeam).State = EntityState.Modified;
                 _context.LidomTeams.Update(lidomTeam);
+                return lidomTeam;
             }
+            return null;
         }
     }
 }

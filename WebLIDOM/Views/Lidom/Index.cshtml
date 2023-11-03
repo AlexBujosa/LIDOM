@@ -3,6 +3,49 @@
 *@
 @{
     ViewData["Title"] = "LIDOM Page";
+    List<LidomTeam>? lidomTeams = ViewBag.lidomTeams;
 }
 
 
+
+
+<div class="container">
+    <div class="row">
+        <h2>Equipos Lidom</h2>
+        <div class="col-12">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Equipos</th>
+                    <th scope="col">Estadios</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int itemCount = 1;
+                        foreach (LidomTeam lidomTeam in lidomTeams)
+                        {
+                                <tr>
+                                    <th scope="row">@itemCount</th>
+                                    <td>@lidomTeam.Name</td>
+                                    <td>@lidomTeam.Home</td>
+                                    <td>
+                                        <button class="btn btn-warning" onclick="updateLidom(@lidomTeam.Id)">Editar</button>
+                                        <button class="btn btn-danger">Eliminar</button>
+                                    </td>
+                                </tr>
+
+                            itemCount++;
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+  </div>
+</div>
+ 
+
+
+@Html.Partial("UpdateLidom");

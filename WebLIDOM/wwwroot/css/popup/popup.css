@@ -18,9 +18,18 @@
     border-radius: 5px;
     text-align: center;
     position: relative;
-    min-width:300px;
-    width:70%;
-    height:400px;
+}
+
+.popup-calendar {
+    min-width: 300px;
+    width: 70%;
+    height: 400px;
+}
+
+.popup-lidom {
+    min-width: 300px;
+    width: 70%;
+    max-width:500px;
 }
 
 .close {

@@ -26,11 +26,11 @@
                     {
                         int teamId = lidomTeam.Id ?? 0;
                         teamsD.Add(teamId, lidomTeam.Name!);
-                                    <tr>
-                                        <th scope="row">@itemCount</th>
-                                        <td>@lidomTeam.Name</td>
-                                        <td>@lidomTeam.Home</td>
-                                    </tr>
+                        <tr>
+                            <th scope="row">@itemCount</th>
+                            <td>@lidomTeam.Name</td>
+                            <td>@lidomTeam.Home</td>
+                        </tr>
 
                         itemCount++;
                     }
@@ -61,12 +61,15 @@
             @{
                 for (int i = 0; i < calendarsNotPlayed.Count; i++)
                 {
-                                <tr>
-                                    <td>@teamsD[calendarsNotPlayed[i].Id_FirstTeam]</td>
-                                    <td>@teamsD[calendarsNotPlayed[i].Id_SecondTeam]</td>
-                                    <td>@calendarsNotPlayed[i].Home</td>
-                                    <td>@calendarsNotPlayed[i].GameDate.ToString("D", new System.Globalization.CultureInfo("es-ES"))</td>
-                                </tr>
+                    <tr>
+                        <td>@teamsD[calendarsNotPlayed[i].Id_FirstTeam]</td>
+                        <td>@teamsD[calendarsNotPlayed[i].Id_SecondTeam]</td>
+                        <td>@calendarsNotPlayed[i].Home</td>
+                        <td>@calendarsNotPlayed[i].GameDate.ToString("D", new System.Globalization.CultureInfo("es-ES"))</td>
+                        <td>
+                            <button class="btn btn-primary w-100" data-id="@calendarsNotPlayed[i].Id" onclick="editCalendar(this)">Editar</button>
+                        </td>
+                    </tr>
                 }
             }
             </tbody>
@@ -163,6 +166,16 @@
 
         stadiumOption(lidomTeamsSelected, selector3);
     });
+</script>
+
+<script>
+    var calendarsNotPlayed =  @Html.Raw(Json.Serialize(calendarsNotPlayed));
+    console.log(calendarsNotPlayed);
+    const editCalendar = (button) => {
+        const recordId = button.getAttribute("data-id");
+        var calendarNotPlayed = calendarsNotPlayed.find(x => x.id == parseInt(recordId));
+        console.log(calendarNotPlayed);
+    }
 </script>
 
 <script>

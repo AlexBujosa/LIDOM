@@ -56,6 +56,7 @@
                 <th scope="col">Equipo 2</th>
                 <th scope="col">Estadio</th>
                 <th scope="col">Dia de juego</th>
+                <th scope="col">Acciones</th>
             </tr>
             </thead>
             <tbody>
@@ -67,8 +68,16 @@
                         <td>@teamsD[calendarsNotPlayed[i].Id_SecondTeam]</td>
                         <td>@calendarsNotPlayed[i].Home</td>
                         <td>@calendarsNotPlayed[i].GameDate.ToString("D", new System.Globalization.CultureInfo("es-ES"))</td>
-                        <td>
-                            <button class="btn btn-primary w-100" data-id="@calendarsNotPlayed[i].Id" onclick="editCalendar(this)">Editar</button>
+                        <td class="d-flex">
+                            <button class="btn btn-warning" style="margin-right:10px;" data-id="@calendarsNotPlayed[i].Id" onclick="editCalendar(this)">
+                                <img src="~/image/editar.png" style="height:15px;"/>
+                            </button>
+                            <form method="post" asp-action="DeleteCalendar" asp-controller="Lidom">
+                                <input type="hidden" name="lidomTeamId" value="@calendarsNotPlayed[i].Id"/>
+                                <button class="btn btn-danger" type="submit">
+                                    <img src="~/image/borrar.png" style="height:15px;"/>
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 }

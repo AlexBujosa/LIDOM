@@ -45,7 +45,7 @@
                                 <button class="btn btn-warning" style="margin-right:10px;" onclick="updateLidom(@lidomTeam.Id)">
                                     <img src="~/image/editar.png" style="height:15px;"/>
                                 </button>
-                                    <form method="post" asp-action="DeleteLidomTeam" asp-controller="Lidom">
+                                <form method="post" asp-action="DeleteLidomTeam" asp-controller="Lidom">
                                     <input type="hidden" name="lidomTeamId" value="@lidomTeam.Id"/>
                                     <button class="btn btn-danger" type="submit">
                                         <img src="~/image/borrar.png" style="height:15px;"/>

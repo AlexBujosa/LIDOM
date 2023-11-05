@@ -1,0 +1,46 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div id="create-lidom-popup" class="popup">
+    <div class="popup-content popup-lidom">
+        <span class="close" id="create-close-popup">&times;</span>
+        <br />
+        <h2>Crear Equipo LIDOM</h2>
+        <br />
+       <form method="post" method="post" asp-action="CreateLidomTeam" asp-controller="Lidom">
+         <div class="row">
+            <div class="col-3 left-align">Equipo: </div>
+            <div class="col-9">
+                  <input type="text" class="form-control" name="Name" placeholder="Ingresar nombre del equipo">
+            </div>
+         </div>
+         <div class="row mt-1">
+            <div class="col-3 left-align">Estadio</div>
+            <div class="col-9">
+                <input type="text" class="form-control" name="Home" placeholder="Ingresar nombre del equipo">
+            </div>
+         </div>
+         
+         <div class="row mt-5">
+            <button type="submit" class="btn btn-primary">Crear Equipo</button>
+         </div>
+          </form>
+    </div>
+ </div>
+
+<script>
+    const createLidomPopup = document.getElementById("create-lidom-popup");
+
+    const createLidom = () => {
+        createLidomPopup.style.display = "flex";
+    }
+
+    const createClosePopup = document.getElementById("create-close-popup");
+
+    createClosePopup.addEventListener('click', function(){
+        createLidomPopup.style.display="none";
+    })
+</script>

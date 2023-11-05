@@ -4,6 +4,7 @@
 @{
     ViewData["Title"] = "LIDOM Page";
     List<LidomTeam>? lidomTeams = ViewBag.lidomTeams;
+    ActionResponse? actionResponse = ViewBag.message;
 }
 
 
@@ -11,7 +12,16 @@
 
 <div class="container">
     <div class="row">
-        <h2>Equipos Lidom</h2>
+        <div class="col-12 d-flex">
+            <div class="col-6">
+                 <h2>Equipos Lidom</h2>
+            </div>
+            <div class="col-6 d-flex" style="justify-content: flex-end;">
+                <button class="btn btn-primary" style="width: 200px;" onclick="createLidom()">
+                    Crear Equipos
+                </button>
+            </div>
+        </div>
         <div class="col-12">
             <table class="table">
                 <thead>
@@ -23,29 +33,65 @@
                 </tr>
                 </thead>
                 <tbody>
-                    @{
-                        int itemCount = 1;
-                        foreach (LidomTeam lidomTeam in lidomTeams)
-                        {
-                                <tr>
-                                    <th scope="row">@itemCount</th>
-                                    <td>@lidomTeam.Name</td>
-                                    <td>@lidomTeam.Home</td>
-                                    <td>
-                                        <button class="btn btn-warning" onclick="updateLidom(@lidomTeam.Id)">Editar</button>
-                                        <button class="btn btn-danger">Eliminar</button>
-                                    </td>
-                                </tr>
+                @{
+                    int itemCount = 1;
+                    foreach (LidomTeam lidomTeam in lidomTeams)
+                    {
+                        <tr>
+                            <th scope="row">@itemCount</th>
+                            <td>@lidomTeam.Name</td>
+                            <td>@lidomTeam.Home</td>
+                            <td class="d-flex">
+                                <button class="btn btn-warning" style="margin-right:10px;" onclick="updateLidom(@lidomTeam.Id)">
+                                    <img src="~/image/editar.png" style="height:15px;"/>
+                                </button>
+                                    <form method="post" asp-action="DeleteLidomTeam" asp-controller="Lidom">
+                                    <input type="hidden" name="lidomTeamId" value="@lidomTeam.Id"/>
+                                    <button class="btn btn-danger" type="submit">
+                                        <img src="~/image/borrar.png" style="height:15px;"/>
+                                    </button>
+                                </form>
+                                                                                                       
+                            </td>
+                        </tr>
 
-                            itemCount++;
-                        }
+                        itemCount++;
                     }
+                }
                 </tbody>
             </table>
         </div>
   </div>
 </div>
  
+@if(actionResponse != null){
+    <div class="position-absolute" style="min-width:270px; width:30%; height:auto; bottom:0; right:0">
+         <div class="alert @if (actionResponse.status == 0) { <text>alert-success</text> } else { <text>alert-danger</text> }" role="alert" style="position: absolute; right: 20px; bottom:20px; z-index:1;" id="alert-message">
+            <div class="row d-flex">
+                <div class="col-2 d-flex justify-content-center align-items-center">
+                    @if(actionResponse.status == 0){
+                        <img src="~/image/completado.png" height="20px"/>
+                    }else {
+                        <img src="~/image/error.png" height="20px"/>
+                    }    
+                </div>
+                <div class="col-10">
+                    @actionResponse.message
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
+@Html.Partial("CreateLidom")
+@Html.Partial("UpdateLidom")
 
-@Html.Partial("UpdateLidom");
+<script>
+  
+  const alertMessage = document.getElementById("alert-message");
+  if(alertMessage){
+      setTimeout(()=>{
+          alertMessage.style.display = "none";
+      },3000);
+  }
+</script>

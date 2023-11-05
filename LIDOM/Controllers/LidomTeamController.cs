@@ -48,11 +48,11 @@ namespace LIDOM.Controllers
             if (!ModelState.IsValid) return Ok(null);
 
             bool deleteLidomTeam = _lidomTeamRepository.Delete(lidomTeamId);
-            if(!deleteLidomTeam) return Ok(new { message = "No Existe el equipo!" });
+            if(!deleteLidomTeam) return Ok(new { message = false });
 
             _lidomTeamRepository.Save();
 
-            return Ok(new { message = "Equipo Eliminado!" });
+            return Ok(new { message = true });
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using LIDOM.utils;
+﻿using WebLIDOM.utils;
 
 namespace WebLIDOM.Models.DTO
 {

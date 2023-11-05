@@ -1,11 +1,12 @@
 ﻿@using WebLIDOM.Models;
+@using WebLIDOM.utils;
 @{
 
     ViewData["Title"] = "Home Page";
     List<LidomTeam>? lidomTeams = ViewBag.lidomTeams;
     List<Calendar>? calendars = ViewBag.calendars;
     Dictionary<int, string> teamsD = new Dictionary<int, string>();
-    List<Calendar> calendarsNotPlayed = calendars.Where(x => x.Status != LIDOM.utils.GameStatus.Past).ToList();
+    List<Calendar> calendarsNotPlayed = calendars.Where(x => x.Status != GameStatus.Past).ToList();
 }
 
 <div style="margin-right:40px; margin-left:40px;">

@@ -33,7 +33,7 @@ namespace LIDOM.Controllers
         }
 
         [HttpPost("UpdateCalendar")]
-        public IActionResult UpdateTeam(UpdateCalendar updateCalendar)
+        public IActionResult UpdateCalendar(UpdateCalendar updateCalendar)
         {
             if (!ModelState.IsValid) return Ok(null);
             Calendar calendar = _calendarRepository.Update(updateCalendar);
@@ -42,17 +42,17 @@ namespace LIDOM.Controllers
         }
 
         [HttpPost("DeleteCalendar")]
-        public IActionResult DeleteTeam(int calendarId)
+        public IActionResult DeleteCalendar(int calendarId)
         {
            
             if (!ModelState.IsValid) return Ok(null);
 
             bool deleteLidomTeam = _calendarRepository.Delete(calendarId);
-            if(!deleteLidomTeam) return Ok(new { message = "No Existe esa juego agendado!" });
+            if(!deleteLidomTeam) return Ok(new { message = false});
 
             _calendarRepository.Save();
 
-            return Ok(new { message = "Juego agendado eliminado!" });
+            return Ok(new { message = true });
         }
     }
 }

@@ -76,5 +76,30 @@ namespace WebLIDOM.Services
                 return calendarUpdated;
             }
         }
+
+        public async Task<bool> DeleteCalendar(int calendarId)
+        {
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://localhost:7022/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // Send a POST request to the "Calendar" endpoint
+                HttpResponseMessage response = await client.PostAsync($"Calendar/DeleteCalendar?calendarId={calendarId}", null);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = await response.Content.ReadAsStringAsync();
+                    var result = JsonConvert.DeserializeObject<Dictionary<string, bool>>(data);
+                    if (result == null) return false;
+
+                    if (result.TryGetValue("message", out bool message)) return message;
+                }
+
+                return false;
+            }
+        }
     }
 }

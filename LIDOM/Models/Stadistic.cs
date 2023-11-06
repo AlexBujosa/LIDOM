@@ -19,10 +19,11 @@ namespace LIDOM.Models
         public DateTime UpdatedDate { get; set; }
 
         [ForeignKey("Id_Calendar")]
-        public Calendar Calendar { get; set; }
+        public Calendar? Calendar { get; set; }
 
         [ForeignKey("Id_Team")]
-        public LidomTeam LidomTeam { get; set; }
+        public LidomTeam? LidomTeam { get; set; }
+
 
     }
 }

@@ -20,19 +20,31 @@ namespace LIDOM.Databases
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Stadistic>()
-                .HasKey(s => new { s.Id_Calendar, s.Id_Team });
+               .HasKey(s => new { s.Id_Calendar, s.Id_Team });
 
-             modelBuilder.Entity<Calendar>()
+            modelBuilder.Entity<Calendar>()
+              .HasOne(c => c.LidomFirstTeam)
+              .WithMany()
+              .HasForeignKey(c => c.Id_FirstTeam)
+              .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Calendar>()
                 .HasOne(c => c.LidomSecondTeam)
                 .WithMany()
                 .HasForeignKey(c => c.Id_SecondTeam)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<Calendar>()
-                .HasOne(c => c.LidomFirstTeam)
-                .WithMany()
-                .HasForeignKey(c => c.Id_FirstTeam)
-                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Stadistic>()
+               .HasOne(c => c.Calendar)
+               .WithMany()
+               .HasForeignKey(c => c.Id_Calendar)
+               .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Stadistic>()
+              .HasOne(c => c.LidomTeam)
+              .WithMany()
+              .HasForeignKey(c => c.Id_Team)
+              .OnDelete(DeleteBehavior.NoAction);
         }
 
         public override int SaveChanges()

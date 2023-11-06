@@ -37,23 +37,23 @@
                     int itemCount = 1;
                     foreach (LidomTeam lidomTeam in lidomTeams)
                     {
-                        <tr>
-                            <th scope="row">@itemCount</th>
-                            <td>@lidomTeam.Name</td>
-                            <td>@lidomTeam.Home</td>
-                            <td class="d-flex">
-                                <button class="btn btn-warning" style="margin-right:10px;" onclick="updateLidom(@lidomTeam.Id)">
-                                    <img src="~/image/editar.png" style="height:15px;"/>
-                                </button>
-                                <form method="post" asp-action="DeleteLidomTeam" asp-controller="Lidom">
-                                    <input type="hidden" name="lidomTeamId" value="@lidomTeam.Id"/>
-                                    <button class="btn btn-danger" type="submit">
-                                        <img src="~/image/borrar.png" style="height:15px;"/>
-                                    </button>
-                                </form>
-                                                                                                       
-                            </td>
-                        </tr>
+                                    <tr>
+                                        <th scope="row">@itemCount</th>
+                                        <td>@lidomTeam.Name</td>
+                                        <td>@lidomTeam.Home</td>
+                                        <td class="d-flex">
+                                            <button class="btn btn-warning" style="margin-right:10px;" onclick="updateLidom(@lidomTeam.Id)">
+                                                <img src="~/image/editar.png" style="height:15px;"/>
+                                            </button>
+                                            <form method="post" asp-action="DeleteLidomTeam" asp-controller="Lidom">
+                                                <input type="hidden" name="lidomTeamId" value="@lidomTeam.Id"/>
+                                                <button class="btn btn-danger" type="submit">
+                                                    <img src="~/image/borrar.png" style="height:15px;"/>
+                                                </button>
+                                            </form>
+                                                                                                                   
+                                        </td>
+                                    </tr>
 
                         itemCount++;
                     }
@@ -65,7 +65,7 @@
 </div>
  
 @if(actionResponse != null){
-    <div class="position-absolute" style="min-width:270px; width:30%; height:auto; bottom:0; right:0">
+    <div class="position-fixed" style="min-width:270px; width:30%; height:auto; bottom:0; right:0; z-index:1;">
          <div class="alert @if (actionResponse.status == 0) { <text>alert-success</text> } else { <text>alert-danger</text> }" role="alert" style="position: absolute; right: 20px; bottom:20px; z-index:1;" id="alert-message">
             <div class="row d-flex">
                 <div class="col-2 d-flex justify-content-center align-items-center">

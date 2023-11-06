@@ -73,7 +73,7 @@
                                 <img src="~/image/editar.png" style="height:15px;"/>
                             </button>
                             <form method="post" asp-action="DeleteCalendar" asp-controller="Lidom">
-                                <input type="hidden" name="lidomTeamId" value="@calendarsNotPlayed[i].Id"/>
+                                <input type="hidden" name="calendarId" value="@calendarsNotPlayed[i].Id"/>
                                 <button class="btn btn-danger" type="submit">
                                     <img src="~/image/borrar.png" style="height:15px;"/>
                                 </button>

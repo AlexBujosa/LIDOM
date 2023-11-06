@@ -20,6 +20,8 @@ namespace LIDOM.Repository
             LidomTeam? lidomTeam = this.GetById(lidomTeamId);
             if(lidomTeam != null)
             {
+                var relatedCalendars = _context.Calendars.Where(c => c.Id_FirstTeam == lidomTeamId || c.Id_SecondTeam == lidomTeamId);
+                _context.Calendars.RemoveRange(relatedCalendars);
                 _context.LidomTeams.Remove(lidomTeam);
                 return true;
             }

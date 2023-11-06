@@ -26,8 +26,8 @@ builder.Services.AddCors(options =>
 
 
 var database = builder.Services.BuildServiceProvider().GetService<LidomDBContext>()!.Database;
-
 database.Migrate();
+
 
 
 var app = builder.Build();

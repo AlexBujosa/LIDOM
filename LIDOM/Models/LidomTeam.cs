@@ -20,5 +20,6 @@ namespace LIDOM.Models
 
         [DataType(DataType.DateTime)]
         public DateTime UpdatedDate { get; set; }
+
     }
 }

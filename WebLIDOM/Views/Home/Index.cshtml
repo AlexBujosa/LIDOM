@@ -27,11 +27,11 @@
                         {
                             int teamId = lidomTeam.Id ?? 0;
                             teamsD.Add(teamId, lidomTeam.Name!);
-                            <tr>
-                                <th scope="row">@itemCount</th>
-                                <td>@lidomTeam.Name</td>
-                                <td>@lidomTeam.Home</td>
-                            </tr>
+                                    <tr>
+                                        <th scope="row">@itemCount</th>
+                                        <td>@lidomTeam.Name</td>
+                                        <td>@lidomTeam.Home</td>
+                                    </tr>
 
                             itemCount++;
                         }
@@ -63,23 +63,26 @@
             @{
                 for (int i = 0; i < calendarsNotPlayed.Count; i++)
                 {
-                    <tr>
-                        <td>@teamsD[calendarsNotPlayed[i].Id_FirstTeam]</td>
-                        <td>@teamsD[calendarsNotPlayed[i].Id_SecondTeam]</td>
-                        <td>@calendarsNotPlayed[i].Home</td>
-                        <td>@calendarsNotPlayed[i].GameDate.ToString("D", new System.Globalization.CultureInfo("es-ES"))</td>
-                        <td class="d-flex">
-                            <button class="btn btn-warning" style="margin-right:10px;" data-id="@calendarsNotPlayed[i].Id" onclick="editCalendar(this)">
-                                <img src="~/image/editar.png" style="height:15px;"/>
-                            </button>
-                            <form method="post" asp-action="DeleteCalendar" asp-controller="Lidom">
-                                <input type="hidden" name="calendarId" value="@calendarsNotPlayed[i].Id"/>
-                                <button class="btn btn-danger" type="submit">
-                                    <img src="~/image/borrar.png" style="height:15px;"/>
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
+                            <tr>
+                                <td>@teamsD[calendarsNotPlayed[i].Id_FirstTeam]</td>
+                                <td>@teamsD[calendarsNotPlayed[i].Id_SecondTeam]</td>
+                                <td>@calendarsNotPlayed[i].Home</td>
+                                <td>@calendarsNotPlayed[i].GameDate.ToString("D", new System.Globalization.CultureInfo("es-ES"))</td>
+                                <td class="d-flex">
+                                    <button class="btn btn-warning" style="margin-right:10px;" data-id="@calendarsNotPlayed[i].Id" onclick="editCalendar(this)">
+                                        <img src="~/image/editar.png" style="height:15px;"/>
+                                    </button>
+                                    <form method="post" asp-action="DeleteCalendar" asp-controller="Calendar">
+                                        <input type="hidden" name="calendarId" value="@calendarsNotPlayed[i].Id"/>
+                                        <button class="btn btn-danger" style="margin-right:10px;" type="submit">
+                                            <img src="~/image/borrar.png" style="height:15px;"/>
+                                        </button>
+                                    </form>
+                                     <button class="btn btn-primary" style="margin-right:10px;" data-id="@calendarsNotPlayed[i].Id" onclick="addStadistic(this)">
+                                        <img src="~/image/medalla.png" style="height:18px;"/>
+                                    </button>
+                                </td>
+                            </tr>
                 }
             }
             </tbody>
@@ -87,8 +90,11 @@
         </div>
     </div>
 </div>
-
+@Html.Partial("AddStadistic")
 @Html.Partial("AddCalendar");
+@Html.Partial("UpdateCalendar")
+@Html.Partial("_ActionResponse", "Shared")
+
 
  <script src="~/js/calendar/option.js"></script>
 
@@ -179,14 +185,100 @@
 </script>
 
 <script>
+    const updateCalendar = document.getElementById("update-calendar-popup");
     var calendarsNotPlayed =  @Html.Raw(Json.Serialize(calendarsNotPlayed));
-    console.log(calendarsNotPlayed);
+    
     const editCalendar = (button) => {
         const recordId = button.getAttribute("data-id");
         var calendarNotPlayed = calendarsNotPlayed.find(x => x.id == parseInt(recordId));
-        console.log(calendarNotPlayed);
+        const calendarInputId = document.getElementById("input-calendar-id");
+        const updateSelectorStadium = document.getElementById("update-sel-stadium");
+        const updateSelectorGameDate = document.getElementById("update-sel-gamedate");
+        const updateSelectorStatus = document.getElementById("update-sel-status");
+        const updateInputGameDate = document.getElementById("update-input-gamedate");
+        var selectedStadium = 0;
+
+        //Asignar el id del calendar
+        calendarInputId.value = calendarNotPlayed.id;
+
+        //Filtering LidomTeam Option
+        const filterLidomTeamC = lidomTeamsC.filter((lidomTeam) => {
+            return calendarNotPlayed.id_FirstTeam === lidomTeam.id || calendarNotPlayed.id_SecondTeam === lidomTeam.id;
+        })
+
+        filterLidomTeamC.forEach((lidomTeam)=> {
+            //Assign selected stadium
+            if(lidomTeam.home === calendarNotPlayed.home){
+                selectedStadium = lidomTeam.home;
+            }
+            //Creating Selector Stadium
+            var option = newOption(lidomTeam.home, lidomTeam.home);
+            updateSelectorStadium.appendChild(option);
+           
+        });
+
+        //Assign the current value to Selector Stadium
+        setSelectedOption(updateSelectorStadium, selectedStadium);
+
+        //Assign the current GameDate
+        const gameDateCalendarNotPlayed = calendarNotPlayed.gameDate.split("T")[0];
+        updateInputGameDate.value = gameDateCalendarNotPlayed;
+
+        //Creating Hour Option
+        generateHourOption(updateSelectorGameDate, "");
+
+        //Assign the current GameDate to select option
+        setSelectedOption(updateSelectorGameDate, calendarNotPlayed.gameDate.split("T")[1]);
+
+         //Assign the current Status to select option
+        setSelectedOption(updateSelectorStatus, calendarNotPlayed.status.toString());
+        
+
+        updateCalendar.style.display = "flex";
+       
     }
+
+    const closePopupUpdate = document.getElementById("close-popup-update");
+    closePopupUpdate.addEventListener('click', ()=>{
+        updateCalendar.style.display = "none";
+    });
 </script>
+
+<script>
+    const addStadisticPopup = document.getElementById("add-stadistic-popup");
+
+    const addStadistic = (button) => {
+        const recordId = button.getAttribute("data-id");
+        var calendarNotPlayed = calendarsNotPlayed.find(x => x.id == parseInt(recordId));
+
+        const inputIdCalendar =   document.getElementById("input-id-calendar");
+        const inputIdFirstTeam =  document.getElementById("input-id-firstteam");
+        const inputIdSecondTeam = document.getElementById("input-id-secondteam");
+        const winnerSelector = document.getElementById("winner-selector");
+
+        const filterLidomTeams = lidomTeamsC.filter((lidomTeam) => {
+            return calendarNotPlayed.id_FirstTeam === lidomTeam.id || calendarNotPlayed.id_SecondTeam === lidomTeam.id;
+        });
+
+        filterLidomTeams.forEach((lidomTeam)=> {
+            var option = newOption(lidomTeam.id, lidomTeam.name);
+            winnerSelector.appendChild(option);
+        });
+
+
+        inputIdCalendar.value = calendarNotPlayed.id;
+        inputIdFirstTeam.value = calendarNotPlayed.id_FirstTeam;
+        inputIdSecondTeam.value = calendarNotPlayed.id_SecondTeam;
+   
+        addStadisticPopup.style.display = "flex";
+    }
+
+    const closeStadisticPopup = document.getElementById("close-stadistic-popup");
+    closeStadisticPopup.addEventListener('click', ()=>{
+        addStadisticPopup.style.display ="none";
+    });
+</script>
+
 
 <script>
     // Get a reference to the closePopup element
@@ -201,4 +293,6 @@
 
 </script>
 
+
 <script src="~/js/calendar/calendar.js"></script>
+

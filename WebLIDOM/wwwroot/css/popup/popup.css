@@ -26,10 +26,16 @@
     height: 400px;
 }
 
+.popup-stadistics {
+    min-width: 300px;
+    width: 70%;
+    height: 300px;
+}
+
 .popup-lidom {
     min-width: 300px;
     width: 70%;
-    max-width:500px;
+    max-width: 500px;
 }
 
 .close {

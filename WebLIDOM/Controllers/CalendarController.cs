@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
+using System.Reflection;
 using System.Text;
 using WebLIDOM.Models;
 using WebLIDOM.Models.DTO;
@@ -47,9 +48,9 @@ namespace WebLIDOM.Controllers
         {
             List<Calendar> calendars = (List<Calendar>)_memoryCache.Get("calendars");
 
-            Calendar newCalendar = await _calendarService.AddNewCalendar(calendar);
-            if (newCalendar != null)
+            if (calendar != null && !IsAnyFieldNull(calendar))
             {
+                Calendar newCalendar = await _calendarService.AddNewCalendar(calendar);
                 calendars.Add(newCalendar);
                 _actionResponse.status = ActionStatus.Success;
                 _actionResponse.message = "Nuevo Calendario Creado!!!";
@@ -82,7 +83,7 @@ namespace WebLIDOM.Controllers
             else
             {
                 _actionResponse.status = ActionStatus.Fail;
-                _actionResponse.message = "Calendario No Actualizado";
+                _actionResponse.message = "Upsss algo fallo...";
             }
 
             _memoryCache.Set("message", _actionResponse, _cacheEntryOptions);
@@ -118,6 +119,13 @@ namespace WebLIDOM.Controllers
             _memoryCache.Set("calendars", calendars);
 
             return RedirectToAction("Index", "Home");
+        }
+
+        public bool IsAnyFieldNull(object obj)
+        {
+            PropertyInfo[] properties = obj.GetType().GetProperties();
+
+            return properties.Any(property => property.GetValue(obj) == null);
         }
     }
 }

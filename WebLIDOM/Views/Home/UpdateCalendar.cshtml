@@ -5,58 +5,60 @@
 }
 
 <div id="update-calendar-popup" class="popup">
-    <div class="popup-content">
-        <span class="close" id="closePopup">&times;</span>
-        <h2>Juego LIDOM</h2>
-        <p>Actualizar Juego LIDOM</p>
-       <form method="post" method="post" asp-action="AddNewCalendar" asp-controller="Home">
+    <div class="popup-content popup-calendar">
+        <span class="close" id="close-popup-update">&times;</span>
+        <h2>Calendario LIDOM</h2>
+        <p>Actualizar Calendario</p>
+        <br/>
+       <form method="post" method="post" asp-action="UpdateCalendar" asp-controller="Calendar">
+           <input class="d-none" id="input-calendar-id" name="id"/>
          <div class="row">
-            <div class="col-3 left-align">Equipo 1</div>
-            <div class="col-9 left-align">
-                <select class="form-select" aria-label="Disabled select example" id="sel-1" name="Id_FirstTeam">
-                    <option value ="0" selected>Elige primer equipo</option>      
-                </select>
-            </div>
-         </div>
-         <div class="row mt-1">
-            <div class="col-3 left-align">Equipo 2</div>
-            <div class="col-9">
-                <select class="form-select" aria-label="Disabled select example" id="sel-2" name="Id_SecondTeam">
-                     <option value="0" selected>Elige segundo equipo</option>
-                </select>
-            </div>
-         </div>
-         <div class="row mt-1">
             <div class="col-3 left-align">Estadio</div>
             <div class="col-9">
-                <select class="form-select" aria-label="Disabled select example" id="sel-3" name="Home">
-                    <option value="N/A" selected>Open this select menu</option>
-
+                <select class="form-select" aria-label="Disabled select example" id="update-sel-stadium" name="Home">
+                    <option selected>Elegir Estadio</option>
                 </select>
+            </div>
+         </div>
+         <div class="row mt-1">
+              <div class="col-3 left-align">Fecha</div>
+            <div class="col-9">
+                <input class="d-none" id="input-game-date" name="GameDate"/>
+                <input class="w-100" type="date" id="update-input-gamedate" name="GameDateIntermediate"/>
             </div>
          </div>
          <div class="row mt-1">
             <div class="col-3 left-align">Hora</div>
             <div class="col-9">
-                <select class="form-select" aria-label="Disabled select example" id="sel-4" name="GameDate">
-                    <option value="N/A" selected>Open this select menu</option>
+                <select class="form-select" aria-label="Disabled select example" id="update-sel-gamedate" name="GameTimeIntermediate">
+                    <option selected>Elegir hora de juego</option>
                 </select>
             </div>
          </div>
          <div class="row mt-1">
             <div class="col-3 left-align">Estado</div>
             <div class="col-9">
-                <select class="form-select" aria-label="Disabled select example" name="Status">
+                <select class="form-select" aria-label="Disabled select example" name="Status" id="update-sel-status">
                     <option selected>Selecciona tipo</option>
                     <option value=0>Juego Entrante</option>
-                    <option value=1>Juego Pasado</option>
                     <option value=2>Juego Pospuesto</option>
                 </select>
             </div>
          </div>
          <div class="row mt-1">
-            <button type="submit" class="btn btn-primary">Agendar</button>
+            <button type="submit" class="btn btn-primary" onclick="setGameDate()">Agendar</button>
          </div>
           </form>
     </div>
  </div>
+
+<script>
+    const setGameDate = ()=> {
+        debugger;
+        const gameDate = document.getElementById("update-input-gamedate").value;
+        const gameTime = document.getElementById("update-sel-gamedate").value;
+        const gameDateTime = new Date(gameDate + "T" + gameTime + "Z");
+        document.getElementById("input-game-date").value = gameDateTime.toISOString();
+    }
+
+</script>

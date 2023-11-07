@@ -22,6 +22,7 @@ namespace WebLIDOM.Controllers
             _logger = logger;
             _memoryCache = cache;   
             _homeService = homeService; 
+
         }
 
         public async Task<IActionResult> Index()
@@ -31,6 +32,9 @@ namespace WebLIDOM.Controllers
             ViewBag.lidomTeams = info.Teams;
             ViewBag.calendars = info.Calendars;
             ViewBag.stadistics = info.Stadistics;
+
+            ActionResponse message = (ActionResponse)_memoryCache.Get("message");
+            ViewBag.message = message;
 
             _memoryCache.Set("lidomTeams", info.Teams);
             _memoryCache.Set("calendars", info.Calendars);

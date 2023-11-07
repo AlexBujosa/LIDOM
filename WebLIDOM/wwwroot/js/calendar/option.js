@@ -72,3 +72,15 @@ const generateHourOption = (hourSelectorCurrent, date) => {
         hourSelectorCurrent.appendChild(optionHome);
     }
 }
+
+const setSelectedOption = (selector, value) => {
+    for (var i = 0; i < selector.childElementCount; i++) {
+        if (selector.options[i].value.toString() === value) {
+            selector.options[i].selected = true;
+        }
+        else {
+            selector.options[i].selected = false;
+        }
+    }
+
+}

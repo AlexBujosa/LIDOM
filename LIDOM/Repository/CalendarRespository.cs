@@ -63,6 +63,7 @@ namespace LIDOM.Repository
                 _context.Entry(calendar).State = EntityState.Detached;
                 _context.Entry(calendar).State = EntityState.Modified;
                 _context.Calendars.Update(calendar);
+                return calendar;
             }
             return null;
         }

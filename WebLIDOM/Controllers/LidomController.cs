@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using System.Reflection;
 using WebLIDOM.Models;
 using WebLIDOM.Models.DTO;
 using WebLIDOM.Services;
@@ -42,14 +43,14 @@ namespace WebLIDOM.Controllers
             return View();
         }
 
-        public async Task<IActionResult> CreateLidomTeam(LidomTeam lidomTeam)
+        public async Task<IActionResult> CreateLidomTeam(AddLidomTeam lidomTeam)
         {
             List<LidomTeam> lidomTeams = (List<LidomTeam>)_memoryCache.Get("lidomTeams");
-
-            LidomTeam newLidomTeam= await _lidomService.CreateLidomTeam(lidomTeam);
-            if (lidomTeam != null)
+            if (lidomTeam != null && !IsAnyFieldNull(lidomTeam))
             {
+                LidomTeam newLidomTeam = await _lidomService.CreateLidomTeam(lidomTeam);
                 lidomTeams.Add(newLidomTeam);
+
                 _actionResponse.status = ActionStatus.Success;
                 _actionResponse.message = "Nuevo Equipo Creado!!!";
             }
@@ -58,6 +59,7 @@ namespace WebLIDOM.Controllers
                 _actionResponse.status = ActionStatus.Fail;
                 _actionResponse.message = "Equipo no creado!!!";
             }
+
             _memoryCache.Set("message", _actionResponse, _cacheEntryOptions);
 
             ViewBag.lidomTeams = lidomTeams;
@@ -119,6 +121,13 @@ namespace WebLIDOM.Controllers
             _memoryCache.Set("lidomTeams", lidomTeams);
             
             return RedirectToAction("Index");
+        }
+
+        public bool IsAnyFieldNull(object obj)
+        {
+            PropertyInfo[] properties = obj.GetType().GetProperties();
+
+            return properties.Any(property => property.GetValue(obj) == null);
         }
     }
 }

@@ -32,7 +32,7 @@ namespace WebLIDOM.Services
             }
         }
 
-        public async Task<LidomTeam> CreateLidomTeam(LidomTeam lidomTeam)
+        public async Task<LidomTeam> CreateLidomTeam(AddLidomTeam lidomTeam)
         {
             using (var client = new HttpClient())
             {

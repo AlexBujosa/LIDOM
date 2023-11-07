@@ -1,0 +1,24 @@
+﻿<div id="add-stadistic-popup" class="popup">
+    <div class="popup-content popup-stadistics">
+        <span class="close" id="close-stadistic-popup">&times;</span>
+        <h2>Quien gano el juego?</h2>
+        <p>Agrega el ganador del partido de baseball</p>
+       <form method="post"  asp-action="AddStadistic" asp-controller="Stadistic">
+         <div class="row">
+             <input type="hidden" id="input-id-calendar" name="Id_Calendar"/>
+             <input type="hidden" id="input-id-firstteam" name="Id_FirstTeam"/>
+             <input type="hidden" id="input-id-secondteam" name="Id_SecondTeam"/>
+            <div class="col-3 left-align">Equipo Ganador</div>
+            <div class="col-9 left-align">
+                <select class="form-select" aria-label="Disabled select example" id="winner-selector" name="Winner">
+                    <option selected>Elige el equipo ganador</option>      
+                </select>
+            </div>
+         </div>
+         <div class="row mt-1">
+            <button type="submit" class="btn btn-primary">Agendar</button>
+         </div>
+          </form>
+    </div>
+ </div>
+

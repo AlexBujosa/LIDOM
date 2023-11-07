@@ -13,6 +13,7 @@ builder.Services.AddScoped<HomeService>();
 builder.Services.AddScoped<CalendarService>();
 builder.Services.AddScoped<LidomService>();
 builder.Services.AddScoped<StadisticService>();
+builder.Services.AddScoped<AuthService>();
 
 
 var app = builder.Build();

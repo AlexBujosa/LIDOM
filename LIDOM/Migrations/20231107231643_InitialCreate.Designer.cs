@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LIDOM.Migrations
 {
     [DbContext(typeof(LidomDBContext))]
-    [Migration("20231106074029_InitialCreate")]
+    [Migration("20231107231643_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -115,6 +115,59 @@ namespace LIDOM.Migrations
                     b.HasIndex("Id_Team");
 
                     b.ToTable("Stadistics");
+                });
+
+            modelBuilder.Entity("LIDOM.Models.Standing", b =>
+                {
+                    b.Property<int>("TeamId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TeamId"));
+
+                    b.Property<int>("LostGames")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TeamName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TotalGame")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WonGames")
+                        .HasColumnType("int");
+
+                    b.HasKey("TeamId");
+
+                    b.ToTable("Standings");
+                });
+
+            modelBuilder.Entity("LIDOM.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("LIDOM.Models.Calendar", b =>

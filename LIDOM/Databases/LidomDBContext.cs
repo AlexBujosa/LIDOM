@@ -14,6 +14,8 @@ namespace LIDOM.Databases
 
         public DbSet<Standing> Standings { get; set; } 
 
+        public DbSet<User> Users { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\any_c\OneDrive\Documents\LIDOM.mdf;Integrated Security=True;Connect Timeout=30");

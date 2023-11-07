@@ -108,6 +108,7 @@ namespace LIDOM.Repository
 
         public List<Standing> GetCurrentStadisticsProcedure(string? dateString)
         {
+            Console.WriteLine("All-Change");
             using(var context = _context)
             {
                 var results = context.Standings

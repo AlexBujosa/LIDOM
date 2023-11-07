@@ -4,7 +4,14 @@
 }
 
 <div class="container">
-    <div class="row">
+    <form style="position:relative; display:flex; justify-content: flex-end;" asp-action="GetCurrentStadistic" asp-controller="Stadistic">
+        <div style="top:80px; width:300px;">
+            <input type="date" class="w-100" name="gameDate"/>
+            <button class="btn btn-primary w-100 mt-2" type="submit">Actualizar Estadistica</button>
+        </div>
+       
+    </form>
+    <div class="row mt-1">
         <div class="col-12">
             <table class="table">
                 <thead>
@@ -23,15 +30,15 @@
                         foreach (Standing standing in standings)
                         {
                             double result = (double)standing.WonGames / (double) standing.TotalGame;
-                            <tr>
-                                <th scope="row">@itemCount</th>
-                                <td>@standing.TeamName</td>
-                                <td>@standing.TotalGame</td>
-                                <td>@standing.WonGames</td>
-                                <td>@standing.LostGames</td>
-                                <td>@(result.ToString("0.000"))</td>
-                                   
-                            </tr>
+                                                                <tr>
+                                                                    <th scope="row">@itemCount</th>
+                                                                    <td>@standing.TeamName</td>
+                                                                    <td>@standing.TotalGame</td>
+                                                                    <td>@standing.WonGames</td>
+                                                                    <td>@standing.LostGames</td>
+                                                                    <td>@(result.ToString("0.000"))</td>
+                                                                       
+                                                                </tr>
 
                             itemCount++;
                         }

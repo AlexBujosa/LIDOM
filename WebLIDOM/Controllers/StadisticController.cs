@@ -4,7 +4,6 @@ using WebLIDOM.Models;
 using WebLIDOM.Services;
 using WebLIDOM.utils;
 using Microsoft.Extensions.Caching.Memory;
-
 namespace WebLIDOM.Controllers
 {
     public class StadisticController : Controller
@@ -30,8 +29,11 @@ namespace WebLIDOM.Controllers
             _actionResponse = new ActionResponse();
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
+            List<Standing> standings = (List<Standing>)_memoryCache.Get("standings");
+            if(standings == null) standings = await _stadisticService.GetCurrentStadistic(null);
+            ViewBag.standings = standings;
             return View();
         }
 
@@ -77,6 +79,14 @@ namespace WebLIDOM.Controllers
             _memoryCache.Set("message", _actionResponse, _cacheEntryOptions);
 
             return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<IActionResult> GetCurrentStadistic(DateTime? gameDate)
+        {
+
+            List<Standing> standings = await _stadisticService.GetCurrentStadistic(gameDate);
+            _memoryCache.Set("standings", standings, _cacheEntryOptions);
+            return RedirectToAction("Index");
         }
     }
 }

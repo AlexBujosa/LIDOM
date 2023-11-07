@@ -1,0 +1,43 @@
+﻿@using WebLIDOM.Models
+@{
+    List<Standing> standings = ViewBag.standings;
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Equipos</th>
+                    <th scope="col">J</th>
+                    <th scope="col">G</th>
+                    <th scope="col">P</th>
+                    <th scope="col">PCT</th>
+                </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int itemCount = 1;
+                        foreach (Standing standing in standings)
+                        {
+                            double result = (double)standing.WonGames / (double) standing.TotalGame;
+                            <tr>
+                                <th scope="row">@itemCount</th>
+                                <td>@standing.TeamName</td>
+                                <td>@standing.TotalGame</td>
+                                <td>@standing.WonGames</td>
+                                <td>@standing.LostGames</td>
+                                <td>@(result.ToString("0.000"))</td>
+                                   
+                            </tr>
+
+                            itemCount++;
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+  </div>
+</div>

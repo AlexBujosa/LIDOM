@@ -2,6 +2,7 @@
 using LIDOM.Interface;
 using LIDOM.Models;
 using LIDOM.utils;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using WebLIDOM.Models.DTO;
 using Calendar = LIDOM.Models.Calendar;
@@ -105,16 +106,13 @@ namespace LIDOM.Repository
             }
         }
 
-        public void GetCurrentStadisticsProcedure()
+        public List<Standing> GetCurrentStadisticsProcedure(string? dateString)
         {
             using(var context = _context)
             {
-                var results = context.Stadistics
-                    .FromSqlRaw("Exec GetCurrentStadistics");
-                foreach(var result in results)
-                {
-                    Console.WriteLine(result);
-                }
+                var results = context.Standings
+                    .FromSqlRaw("EXEC [dbo].[GetStanding] @GameDate = {0}", dateString);
+                return results.ToList();
             }
         }
 

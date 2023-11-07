@@ -52,5 +52,24 @@ namespace WebLIDOM.Services
                 return newStadistics;
             }
         }
+
+        public async Task<List<Standing>> GetCurrentStadistic(DateTime? date)
+        {
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://localhost:7022/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = await client.GetAsync($"Stadistic/GetStadistics?gameDate={date}");
+
+                if (!response.IsSuccessStatusCode) return null;
+
+                var data = await response.Content.ReadAsStringAsync();
+                var standings = JsonConvert.DeserializeObject<List<Standing>>(data)!;
+                return standings;
+            }
+        }
     }
 }

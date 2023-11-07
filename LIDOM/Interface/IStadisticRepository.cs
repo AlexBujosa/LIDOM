@@ -10,7 +10,7 @@ namespace LIDOM.Interface
         void Update(T updateStadistic);
         bool Delete(int Id_Calendar, int Id_Team);
         public bool UpsertStadisticsWithTransaction(Stadistic[] stadistics);
-        public void GetCurrentStadisticsProcedure();
+        public List<Standing> GetCurrentStadisticsProcedure(string? dateString);
         void Save();
     }
 }

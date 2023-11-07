@@ -35,12 +35,13 @@ namespace LIDOM.Controllers
         }
 
         [HttpGet("GetStadistics")]
-        public IActionResult GetCurrentStadistic()
+        public IActionResult GetCurrentStadistic(DateTime? gameDate)
         {
             if (!ModelState.IsValid) return Ok(null);
-            _stadisticRepository.GetCurrentStadisticsProcedure();
+            string? formattedDate = gameDate != null ? gameDate.Value.ToString("MM-dd-yyyy") : null;
+            var standings =_stadisticRepository.GetCurrentStadisticsProcedure(formattedDate);
 
-            return Ok("hello world!");
+            return Ok(standings);
         }
 
         [HttpPost("DeleteStadistic")]
